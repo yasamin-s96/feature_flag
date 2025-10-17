@@ -17,3 +17,21 @@ class FeatureFlagService:
                 key=input_data.key)
         return await self.feature_flag_repo.create(db, **input_data.model_dump(exclude_unset=True))
 
+    async def get(self, db: AsyncSession, feature_id: int):
+        feature = await self.feature_flag_repo.get_by_id(db, feature_id)
+        if not feature:
+            await raise_if_not_exists(db, self.feature_flag_repo, id=feature_id)
+
+        return  feature
+
+    async def list(self, db: AsyncSession):
+        return await self.feature_flag_repo.get_all(db)
+
+    async def delete(self, db: AsyncSession, feature_id: int):
+        deleted_feature = await self.feature_flag_repo.hard_delete(db, feature_id)
+        if not deleted_feature:
+            raise NotFoundException(detail="Feature not found")
+
+
+
+
