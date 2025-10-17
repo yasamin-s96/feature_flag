@@ -30,7 +30,7 @@ class BadRequestException(CustomBaseException):
 class NotFoundException(CustomBaseException):
     status_code = status.HTTP_404_NOT_FOUND
     message = "Not Found"
-    detail = "Not Found"
+    detail = "Item Not Found"
 
 
         
