@@ -4,8 +4,8 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
+from app.core.settings import settings
 from app.database.base import Base
-from app.database.config.database import PostgresConfig
 from app.models import *
 
 from alembic import context
@@ -32,8 +32,8 @@ target_metadata = Base.metadata
 
 DATABASE_URL = (
     f"postgresql://"
-    f"{PostgresConfig.DATABASE_USERNAME}:{urllib.parse.quote(PostgresConfig.DATABASE_PASSWORD)}"
-    f"@{PostgresConfig.DATABASE_HOSTNAME}:{PostgresConfig.DATABASE_PORT}/{PostgresConfig.DATABASE_NAME}"
+    f"{settings.database.USERNAME}:{urllib.parse.quote(settings.database.PASSWORD)}"
+    f"@{settings.database.HOSTNAME}:{settings.database.PORT}/{settings.database.NAME}"
 )
 
 config.set_main_option("sqlalchemy.url", DATABASE_URL)

@@ -9,9 +9,10 @@ from sqlalchemy import (
     func,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from app.core.types import TargetTypeEnum
 from app.database.base import Base
 from app.models.feature_flag import FeatureFlag
-from app.core.types.feature_flag import TargetTypeEnum
 
 
 class FeatureFlagOverride(Base):
