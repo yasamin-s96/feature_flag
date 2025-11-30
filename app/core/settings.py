@@ -8,9 +8,18 @@ class AppSettings(BaseSettings):
     APP_VERSION: str
     APP_DEBUG: bool = False
     BASE_URL: AnyHttpUrl
+    HOST: str
+    PORT: str
     DEFAULT_LOCALE: str
     WORKER: int
     ORIGINS: list[str]
+
+    model_config = {
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+        "case_sensitive": False,
+        "extra": "allow"
+    }
 
 
 class DatabaseSettings(BaseSettings):
@@ -19,7 +28,7 @@ class DatabaseSettings(BaseSettings):
     DATABASE_NAME: str
     DATABASE_HOSTNAME: str
     DATABASE_PORT: int
-    DATABASE_DEBUG_MODE: bool
+    DEBUG_MODE: bool
     POOL_SIZE: int
     POOL_RECYCLE: int
     POOL_PRE_PING: bool
@@ -27,15 +36,25 @@ class DatabaseSettings(BaseSettings):
     MAX_OVERFLOW: int
     FUTURE: bool
 
+    model_config = {
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+        "case_sensitive": False,
+        "extra": "allow"
+    }
 
 class RedisSettings(BaseSettings):
-    HOST: str
-    PORT: int
-    PASSWORD: str | None = None
+    REDIS_HOST: str
+    REDIS_PORT: str
     TTL: int
+    REDIS_PASSWORD: str = ""
 
-    model_config = SettingsConfigDict(env_prefix="REDIS_")
-
+    model_config = {
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+        "case_sensitive": False,
+        "extra": "allow"
+    }
 
 
 class SecuritySettings(BaseSettings):
@@ -44,6 +63,12 @@ class SecuritySettings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int
     APP_KEY: str
 
+    model_config = {
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+        "case_sensitive": False,
+        "extra": "allow"
+    }
 
 class CoreSettings(BaseSettings):
     HOST: str
@@ -51,16 +76,19 @@ class CoreSettings(BaseSettings):
     ENVIRONMENT: str
     LOCAL_STORAGE_PATH: str
 
+    model_config = {
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+        "case_sensitive": False,
+        "extra": "allow"
+    }
 
-# class Settings:
-#     # app: AppSettings = AppSettings()
-#     database: DatabaseSettings = DatabaseSettings()
-#     redis: RedisSettings = RedisSettings()
-#     security: SecuritySettings = SecuritySettings()
-#     core: CoreSettings = CoreSettings()
-
-    # model_config = SettingsConfigDict(env_file=f".env.{os.getenv('ENV', 'development')}")
+class Settings:
+    app: AppSettings = AppSettings()
+    database: DatabaseSettings = DatabaseSettings()
+    redis: RedisSettings = RedisSettings()
+    security: SecuritySettings = SecuritySettings()
+    core: CoreSettings = CoreSettings()
 
 
-
-settings = DatabaseSettings()
+settings = Settings()

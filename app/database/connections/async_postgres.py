@@ -7,8 +7,8 @@ from app.core.settings import settings
 # Generate Database URL
 DATABASE_URL = (
     f"postgresql+asyncpg://"
-    f"{settings.database.USERNAME}:{urllib.parse.quote(settings.database.PASSWORD)}"
-    f"@{settings.database.HOSTNAME}:{settings.database.PORT}/{settings.database.NAME}"
+    f"{settings.database.DATABASE_USERNAME}:{urllib.parse.quote(settings.database.DATABASE_PASSWORD)}"
+    f"@{settings.database.DATABASE_HOSTNAME}:{settings.database.DATABASE_PORT}/{settings.database.DATABASE_NAME}"
 )
 
 # Create Database Engine
