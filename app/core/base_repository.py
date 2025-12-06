@@ -81,6 +81,7 @@ class BaseRepository(Generic[T]):
         limit: int | None = None,
         sort: list[str] | None = None,
         exclude_inactive: bool = True,
+        first: bool = False,
         **filters,
     ):
         """Get records by filters with optional column selection, limit, and sorting."""
@@ -314,13 +315,17 @@ class BaseRepository(Generic[T]):
         return statement
 
     def _determine_return_format(
-        self, result: Result, custom_columns: list[str] | None = None
+        self, result: Result, custom_columns: list[str] | None = None, first: bool = False
     ):
         """Determine the appropriate return format based on query type."""
         if not custom_columns or len(custom_columns) == 1:
-            return result.scalars().all()
+            result = result.scalars()
         else:
-            return result.mappings().all()
+            result = result.mappings()
+
+        if first:
+            return result.first()
+        return result.all()
 
     def _apply_sorting(self, statement, sort: list[str] | None = None):
         """Apply sorting to the given SQLAlchemy statement based on sort parameters."""

@@ -24,14 +24,14 @@ async def raise_if_not_exists(
     """
 
     if return_obj:
-        result = await repository.get_by_filter(db, limit=1, **filters)
+        result = await repository.get_by_filter(db, limit=1, first=True, **filters)
     else:
         result = await repository.exists(db, **filters)
 
     if not result:
         raise NotFoundException(err_message)
 
-    return result[0] if return_obj else None
+    return result if return_obj else None
 
 async def raise_if_exists(
     db: AsyncSession,

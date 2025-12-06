@@ -8,7 +8,7 @@ from sqlalchemy import (
     CheckConstraint,
     func,
 )
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
 
@@ -30,6 +30,8 @@ class FeatureFlag(Base):
     updated_at: Mapped[datetime] = mapped_column(
         nullable=False, server_default=func.now(), onupdate=func.now()
     )
+
+    overrides = relationship("FeatureFlagOverride", back_populates="feature_flag")
 
     def __repr__(self) -> str:
         return f"<FeatureFlag(id={self.id}, key={self.key!r}, enabled={self.is_enabled})>"

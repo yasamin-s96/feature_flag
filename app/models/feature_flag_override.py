@@ -25,9 +25,6 @@ class FeatureFlagOverride(Base):
         ForeignKey("feature_flags.id", ondelete="CASCADE"),
         nullable=False,
     )
-    feature_flag: Mapped[FeatureFlag] = relationship(
-        "FeatureFlag", back_populates="overrides"
-    )
 
     target_type: Mapped[TargetTypeEnum] = mapped_column(
         Enum(TargetTypeEnum), nullable=False
@@ -38,6 +35,10 @@ class FeatureFlagOverride(Base):
     created_at: Mapped[datetime] = mapped_column(
         TIMESTAMP(timezone=True), nullable=False, server_default=func.now()
     )
+
+    feature_flag: Mapped[FeatureFlag] = relationship(
+    "FeatureFlag", back_populates="overrides"
+)
 
     def __repr__(self) -> str:
         return (
